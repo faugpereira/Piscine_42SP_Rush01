@@ -6,7 +6,7 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 03:21:44 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/11 16:52:26 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/11 19:04:44 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int		ft_check_valid_parameters(char *str)
 	{
 		if (position % 2 == 0)
 		{
-			if(!(*(str + position) >= '1' && *(str + position) <= '4'))
+			if (!(*(str + position) >= '1' && *(str + position) <= '4'))
 				return (1);
 		}
 		else
 		{
-			if(!(*(str + position) == 32))
+			if (!(*(str + position) == 32))
 				return (1);
 		}
 		position++;
