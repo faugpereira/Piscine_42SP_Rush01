@@ -6,7 +6,7 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 03:21:44 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/10 19:54:57 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/10 22:29:05 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,16 @@ int		ft_check_valid_parameters(char *str)
 	position = 0;
 	while (*(str + position) != '\0')
 	{
-		if (!((*(str + position) >= '1' && *(str + position) <= '4')
-			|| (*(str + position) == 32)))
-			return (1);
+		if (position % 2 == 0)
+		{
+			if(!(*(str + position) >= '1' && *(str + position) <= '4'))
+				return (1);
+		}
+		else
+		{
+			if(!(*(str + position) == 32))
+				return (1);
+		}
 		position++;
 	}
 	return (0);
@@ -64,8 +71,8 @@ int		main(int argc, char *argv[])
 	char	*row_left_n_right;
 	int		error;
 
-	col_up_n_down = malloc(16);
-	row_left_n_right = malloc(16);
+	col_up_n_down = (char *)malloc(16);
+	row_left_n_right = (char *)malloc(16);
 	error = 0;
 	if (argc == 2)
 	{
@@ -77,6 +84,8 @@ int		main(int argc, char *argv[])
 				error = ft_check_valid_parameters(row_left_n_right);
 			if (error == 0)
 				ft_fill_skyscraper(col_up_n_down, row_left_n_right);
+			if (error == 1)
+				write(1, "Error\n", 6);
 		}
 		else
 			write(1, "Error\n", 6);
