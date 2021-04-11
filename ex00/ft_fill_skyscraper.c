@@ -6,7 +6,7 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 20:02:23 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/11 19:15:43 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/11 20:44:16 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,8 +324,20 @@ void	ft_third_three_rule_row(char *rows, char *columns)
 		{
 			if (g_matrix[position / 2][3] == '4')
 			{
-				if(columns[4] == '3')
-					g_matrix[position / 2][1] = '3';
+				if (position == 0)
+				{
+					if(columns[4] == '3' && g_matrix[position / 2][1] == 'x')
+							g_matrix[position / 2][1] = '3';
+					else if (columns[2] == '3'  && g_matrix[position / 2][2] == 'x')
+							g_matrix[position / 2][2] = '3';
+				}
+				else
+				{
+					if(columns[10] == '3' && g_matrix[position / 2][2] == 'x')
+							g_matrix[position / 2][2] = '3';
+					else if (columns[12] == '3'  && g_matrix[position / 2][1] == 'x')
+							g_matrix[position / 2][1] = '3';
+				}
 			}
 		}
 		position += 6;
@@ -335,10 +347,22 @@ void	ft_third_three_rule_row(char *rows, char *columns)
 	{
 		if (rows[position] == '3')
 		{
-			if (g_matrix[(position - 8) / 2][3] == '4')
+			if (g_matrix[(position - 8) / 2][0] == '4')
 			{
-				if(columns[0] == '3')
-					g_matrix[(position - 8) / 2][1] = '3';
+				if (position == 8)
+				{
+					if(columns[2] == '3' && g_matrix[position / 2][2] == 'x')
+							g_matrix[position / 2][2] = '3';
+					else if (columns[4] == '3'  && g_matrix[position / 2][1] == 'x')
+							g_matrix[position / 2][1] = '3';
+				}
+				else
+				{
+					if(columns[10] == '3' && g_matrix[position / 2][2] == 'x')
+							g_matrix[position / 2][2] = '3';
+					else if (columns[12] == '3'  && g_matrix[position / 2][1] == 'x')
+							g_matrix[position / 2][1] = '3';
+				}
 			}
 		}
 		position += 6;
@@ -356,8 +380,20 @@ void	ft_third_three_rule_column(char *rows, char *columns)
 		{
 			if (g_matrix[3][position / 2] == '4')
 			{
-				if(rows[4] == '3')
-					g_matrix[1][position / 2] = '3';
+				if (position == 0)
+				{
+					if(rows[4] == '3' && g_matrix[1][position / 2] == 'x')
+							g_matrix[1][position / 2] = '3';
+					else if (rows[2] == '3'  && g_matrix[2][position / 2] == 'x')
+							g_matrix[2][position / 2] = '3';
+				}
+				else
+				{
+					if(rows[10] == '3' && g_matrix[2][position / 2] == 'x')
+							g_matrix[2][position / 2] = '3';
+					else if (rows[12] == '3'  && g_matrix[1][position / 2] == 'x')
+							g_matrix[1][position / 2] = '3';
+				}
 			}
 		}
 		position += 6;
@@ -367,10 +403,22 @@ void	ft_third_three_rule_column(char *rows, char *columns)
 	{
 		if (columns[position] == '3')
 		{
-			if (g_matrix[3][(position - 8) / 2] == '4')
+			if (g_matrix[0][(position - 8) / 2] == '4')
 			{
-				if(rows[0] == '3')
-					g_matrix[1][(position - 8) / 2] = '3';
+				if (position == 8)
+				{
+					if(rows[2] == '3' && g_matrix[2][position / 2] == 'x')
+							g_matrix[2][position / 2] = '3';
+					else if (rows[4] == '3'  && g_matrix[1][position / 2] == 'x')
+							g_matrix[1][position / 2] = '3';
+				}
+				else
+				{
+					if(rows[10] == '3' && g_matrix[2][position / 2] == 'x')
+							g_matrix[2][position / 2] = '3';
+					else if (rows[12] == '3'  && g_matrix[1][position / 2] == 'x')
+							g_matrix[1][position / 2] = '3';
+				}
 			}
 		}
 		position += 6;
