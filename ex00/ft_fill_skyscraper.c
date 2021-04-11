@@ -6,13 +6,306 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 20:02:23 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/11 02:41:38 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/11 06:28:45 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
 char g_matrix[4][5];
+
+void	ft_third_two_rule_row(char *rows)
+{
+	int position;
+	int i;
+	
+	position = 0;
+	while (rows[position] != '\0')
+	{
+		if (rows[position] == '2')
+		{
+			if (position < 7)
+			{
+				i = position / 2;
+				if (g_matrix[i][3] != 'x' && g_matrix[i][3] != '4' 
+					&& g_matrix[i][2] != 'x' && g_matrix[i][2] != '4')
+					g_matrix[i][1] = '4';
+			}
+			else
+			{
+				i = (position - 8) / 2;
+				if (g_matrix[i][0] != 'x' && g_matrix[i][0] != '4' 
+					&& g_matrix[i][1] != 'x' && g_matrix[i][1] != '4')
+					g_matrix[i][2] = '4';
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_third_two_rule_column(char *columns)
+{
+	int position;
+	int j;
+	
+	position = 0;
+	while (columns[position] != '\0')
+	{
+		if (columns[position] == '2')
+		{
+			if (position < 7)
+			{
+				j = position / 2;
+				if (g_matrix[3][j] != 'x' && g_matrix[3][j] != '4' 
+					&& g_matrix[2][j] != 'x' && g_matrix[2][j] != '4')
+					g_matrix[1][j] = '4';
+			}
+			else
+			{
+				j = (position - 8) / 2;
+				if (g_matrix[0][j] != 'x' && g_matrix[0][j] != '4' 
+					&& g_matrix[1][j] != 'x' && g_matrix[1][j] != '4')
+					g_matrix[2][j] = '4';
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_fourth_three_rule_row(char *rows)
+{
+	int i;
+	int j;
+	int column_free[4];
+	int position;
+
+	i = 0;
+	j = 0;
+	position = 0;
+	while(i < 4)
+	{
+		column_free[i] = 1;
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			if(g_matrix[i][j] == '3')
+			{
+				column_free[j] = 0;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	while (rows[position] != '\0')
+	{
+		if(rows[position] == '3')
+		{
+			if (position < 7)
+			{
+				i = position / 2;
+				if (column_free[0] == 1 && column_free[1] == 1 && column_free[2] == 0
+					&& column_free[3] == 0 && g_matrix[i][1] == 'x')
+					g_matrix[i][1] = '3';
+			}
+			else
+			{
+				i = (position - 8) / 2;
+				if (column_free[3] == 1 && column_free[2] == 1 && column_free[1] == 0
+					&& column_free[0] == 0 && g_matrix[i][2] == 'x')
+					g_matrix[i][2] = '3';
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_fourth_three_rule_column(char *columns)
+{
+	int i;
+	int j;
+	int row_free[4];
+	int position;
+
+	i = 0;
+	j = 0;
+	while(i < 4)
+	{
+		row_free[i] = 1;
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			if(g_matrix[i][j] == '3')
+			{
+				row_free[i] = 0;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	position = 0;
+	while (columns[position] != '\0')
+	{
+		if(columns[position] == '3')
+		{
+			if (position < 7)
+			{
+				j = position / 2;
+				if (row_free[0] == 1 && row_free[1] == 1 && row_free[2] == 0
+					&& row_free[3] == 0 && g_matrix[1][j] == 'x')
+					g_matrix[1][j] = '3';
+			}
+			else
+			{
+				j = (position - 8) / 2;
+				if (row_free[3] == 1 && row_free[2] == 1 && row_free[1] == 0
+					&& row_free[0] == 0 && g_matrix[2][j] == 'x')
+					g_matrix[2][j] = '3';
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_second_two_rule_in_row(char *rows)
+{
+	int position;
+	int i;
+
+	position = 0;
+	while (rows[position] != '\0')
+	{
+		if (rows[position] == '2')
+		{
+			if (position < 7)
+			{
+				i = position / 2;
+				if (g_matrix[i][3] == '1' && g_matrix[i][2] == '4')
+				{
+					g_matrix[i][0] = '3';
+					g_matrix[i][1] = '2';
+				}
+			}
+			else
+			{
+				i = (position - 8) / 2;
+				if (g_matrix[i][0] == '1' && g_matrix[i][1] == '4')
+				{
+					g_matrix[i][2] = '2';
+					g_matrix[i][3] = '3';
+				}
+			}
+		}
+		position++;
+	}
+}
+void	ft_second_two_rule_in_column(char *columns)
+{
+	int position;
+	int j;
+
+	position = 0;
+	while (columns[position] != '\0')
+	{
+		if (columns[position] == '2')
+		{
+			if (position < 7)
+			{
+				j = position / 2;
+				if (g_matrix[3][j] == '1' && g_matrix[2][j] == '4')
+				{
+					g_matrix[0][j] = '3';
+					g_matrix[1][j] = '2';
+				}
+			}
+			else
+			{
+				j = (position - 8) / 2;
+				if (g_matrix[0][j] == '1' && g_matrix[1][j] == '4')
+				{
+					g_matrix[2][j] = '2';
+					g_matrix[3][j] = '3';
+				}
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_third_three_rule_row(char *rows, char *columns)
+{
+	int position;
+
+	position = 0;
+	while (position < 7)
+	{
+		if (rows[position] == '3')
+		{
+			if (g_matrix[position / 2][3] == '4')
+			{
+				if(columns[4] == '3')
+					g_matrix[position / 2][1] = '3';
+			}
+		}
+		position += 6;
+	}
+	position = 8;
+	while (position < 15)
+	{
+		if (rows[position] == '3')
+		{
+			if (g_matrix[(position - 8) / 2][3] == '4')
+			{
+				if(columns[0] == '3')
+					g_matrix[(position - 8) / 2][1] = '3';
+			}
+		}
+		position += 6;
+	}
+}
+
+void	ft_third_three_rule_column(char *rows, char *columns)
+{
+	int position;
+
+	position = 0;
+	while (position < 7)
+	{
+		if (columns[position] == '3')
+		{
+			if (g_matrix[position / 2][3] == '4')
+			{
+				if(rows[4] == '3')
+					g_matrix[position / 2][1] = '3';
+			}
+		}
+		position += 6;
+	}
+	position = 8;
+	while (position < 15)
+	{
+		if (columns[position] == '3')
+		{
+			if (g_matrix[(position - 8) / 2][3] == '4')
+			{
+				if(rows[0] == '3')
+					g_matrix[(position - 8) / 2][1] = '3';
+			}
+		}
+		position += 6;
+	}
+}
 
 void	ft_second_three_rule_row(char *rows)
 {
@@ -32,6 +325,12 @@ void	ft_second_three_rule_row(char *rows)
 					g_matrix[i][0] = '2';
 					g_matrix[i][1] = '1';
 				}
+				if(g_matrix[i][3] == '3')
+				{
+					g_matrix[i][0] = '1';
+					g_matrix[i][1] = '2';
+					g_matrix[i][2] = '4';
+				}
 			}	
 			else
 			{
@@ -40,6 +339,12 @@ void	ft_second_three_rule_row(char *rows)
 				{
 					g_matrix[i][3] = '2';
 					g_matrix[i][2] = '1';
+				}
+				if(g_matrix[i][0] == '3')
+				{
+					g_matrix[i][3] = '1';
+					g_matrix[i][2] = '2';
+					g_matrix[i][1] = '4';
 				}
 			}
 		}
@@ -65,6 +370,12 @@ void	ft_second_three_rule_column(char *columns)
 					g_matrix[0][j] = '2';
 					g_matrix[1][j] = '1';
 				}
+				if(g_matrix[3][j] == '3')
+				{
+					g_matrix[0][j] = '1';
+					g_matrix[1][j] = '2';
+					g_matrix[2][j] = '4';
+				}
 			}	
 			else
 			{
@@ -73,6 +384,12 @@ void	ft_second_three_rule_column(char *columns)
 				{
 					g_matrix[3][j] = '2';
 					g_matrix[2][j] = '1';
+				}
+				if(g_matrix[0][j] == '3')
+				{
+					g_matrix[3][j] = '1';
+					g_matrix[2][j] = '2';
+					g_matrix[1][j] = '4';
 				}
 			}
 		}
@@ -311,7 +628,9 @@ void	ft_try_put_three_in_row()
 	}
 }
 
-void	ft_three_rule_row(char *rows)
+void	ft_three_rule_row(char *rows, char *columns)
+// se as duas ultimas posições opostas ao parâmetro 3 estão ocupadas por números 
+// diferentes de 3, então coloca 3 na outra posição disponível
 {
 	int position;
 	int i;
@@ -323,41 +642,132 @@ void	ft_three_rule_row(char *rows)
 	{
 		if (rows[position] == '3')
 		{
-			j = 1;
 			x = 0;
 			if (position < 7)
+			{
 				i = position / 2;
-			else
-				i = (position - 8) / 2;
-			while (j < 4)
-			{
-				if (g_matrix[i][j] == 'x')
-					x++;
-				if (x > 1)
-					break ;
-				j++;
-			}
-			if (x == 1)
-			{
 				j = 1;
-				x = 0;
 				while (j < 4)
 				{
-					if (!(g_matrix[i][j] == '3'))
-						x++;
+					if (position == 0)
+					{
+						if (g_matrix[i][j] == 'x' && columns[j * 2] != '3')
+							x++;
+					}
+					else if (position == 6)
+					{
+						if (g_matrix[i][j] == 'x' && columns[j * 2 + 8] != '3')
+							x++;
+					}
+					else
+					{
+						if (g_matrix[i][j] == 'x' && g_matrix[0][j] != '3'
+							&& g_matrix[1][j] != '3' && g_matrix[2][j] != '3'
+								&& g_matrix[3][j] != '3')
+							x++;
+					}
 					j++;
 				}
-				if(x == 3)
+				if (x == 1)
 				{
 					j = 1;
+					x = 0;
 					while (j < 4)
 					{
-						if (g_matrix[i][j] == 'x')
-						{
-							g_matrix[i][j] = '3';
-							break ;
-						}
+						if(g_matrix[i][j] == '3')
+							x++;
 						j++;
+					}
+					if (x == 0)
+					{
+						j = 1;
+						while (j < 4)
+						{
+							if (position == 0)
+							{
+								if (g_matrix[i][j] == 'x' && columns[j * 2] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else if (position == 6)
+							{
+								if (g_matrix[i][j] == 'x' && columns[j * 2 + 8] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else
+							{
+								if (g_matrix[i][j] == 'x' 
+									&& g_matrix[0][j] != '3'
+										&& g_matrix[1][j] != '3'
+											&& g_matrix[2][j] != '3'
+												&& g_matrix[3][j] != '3')
+									g_matrix[i][j] = '3';
+							}
+							j++;
+						}
+					}
+				}
+			}
+			else
+			{
+				i = (position - 8) / 2;
+				j = 0;
+				while (j < 3)
+				{
+					if (position == 8)
+					{
+						if (g_matrix[i][j] == 'x' && columns[j * 2] != '3')
+							x++;
+					}
+					else if (position == 14)
+					{
+						if (g_matrix[i][j] == 'x' && columns[j * 2 + 8] != '3')
+							x++;
+					}
+					else
+					{
+						if (g_matrix[i][j] == 'x'  && g_matrix[0][j] != '3'
+							&& g_matrix[1][j] != '3' && g_matrix[2][j] != '3'
+								&& g_matrix[3][j] != '3')
+							x++;
+					}
+					j++;
+				}
+				if (x == 1)
+				{
+					j = 0;
+					x = 0;
+					while (j < 3)
+					{
+						if(g_matrix[i][j] == '3')
+							x++;
+						j++;
+					}
+					if (x == 0)
+					{
+						j = 0;
+						while (j < 3)
+						{
+							if (position == 8)
+							{
+								if (g_matrix[i][j] == 'x' && columns[j * 2] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else if (position == 14)
+							{
+								if (g_matrix[i][j] == 'x' && columns[j * 2 + 8] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else
+							{
+								if (g_matrix[i][j] == 'x' 
+									&& g_matrix[0][j] != '3'
+										&& g_matrix[1][j] != '3'
+											&& g_matrix[2][j] != '3'
+												&& g_matrix[3][j] != '3')
+									g_matrix[i][j] = '3';
+							}
+							j++;
+						}
 					}
 				}
 			}
@@ -366,7 +776,9 @@ void	ft_three_rule_row(char *rows)
 	}
 }
 
-void	ft_three_rule_column(char *columns)
+void	ft_three_rule_column(char *rows, char *columns) 
+// se as duas ultimas posições opostas ao parâmetro 3 estão ocupadas por números 
+// diferentes de 3, então coloca 3 na outra posição disponível
 {
 	int position;
 	int i;
@@ -378,41 +790,132 @@ void	ft_three_rule_column(char *columns)
 	{
 		if (columns[position] == '3')
 		{
-			i = 1;
 			x = 0;
 			if (position < 7)
+			{
 				j = position / 2;
-			else
-				j = (position - 8) / 2;
-			while (i < 4)
-			{
-				if (g_matrix[i][j] == 'x')
-					x++;
-				if (x > 1)
-					break ;
-				i++;
-			}
-			if (x == 1)
-			{
 				i = 1;
-				x = 0;
 				while (i < 4)
 				{
-					if (!(g_matrix[i][j] == '3'))
-						x++;
+					if (position == 0)
+					{
+						if (g_matrix[i][j] == 'x' && rows[i * 2] != '3')
+							x++;
+					}
+					else if (position == 6)
+					{
+						if (g_matrix[i][j] == 'x' && rows[i * 2 + 8] != '3')
+							x++;
+					}
+					else
+					{
+						if (g_matrix[i][j] == 'x' && g_matrix[i][0] != '3'
+							&& g_matrix[i][1] != '3' && g_matrix[i][2] != '3'
+								&& g_matrix[i][3] != '3')
+							x++;
+					}
 					i++;
 				}
-				if(x == 3)
+				if (x == 1)
 				{
 					i = 1;
+					x = 0;
 					while (i < 4)
 					{
-						if (g_matrix[i][j] == 'x')
-						{
-							g_matrix[i][j] = '3';
-							break ;
-						}
+						if(g_matrix[i][j] == '3')
+							x++;
 						i++;
+					}
+					if (x == 0)
+					{
+						i = 1;
+						while (i < 4)
+						{
+							if (position == 0)
+							{
+								if (g_matrix[i][j] == 'x' && rows[i * 2] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else if (position == 6)
+							{
+								if (g_matrix[i][j] == 'x' && rows[i * 2 + 8] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else
+							{
+								if (g_matrix[i][j] == 'x'
+									&& g_matrix[i][0] != '3'
+										&& g_matrix[i][1] != '3'
+											&& g_matrix[i][2] != '3'
+												&& g_matrix[i][3] != '3')
+									g_matrix[i][j] = '3';
+							}
+							i++;
+						}
+					}
+				}
+			}
+			else
+			{
+				j = (position - 8) / 2;
+				i = 0;
+				while (i < 3)
+				{
+					if (position == 8)
+					{
+						if (g_matrix[i][j] == 'x' && rows[i * 2] != '3')
+							x++;
+					}
+					else if (position == 14)
+					{
+						if (g_matrix[i][j] == 'x' && rows[i * 2 + 8] != '3')
+							x++;
+					}
+					else
+					{
+						if (g_matrix[i][j] == 'x' && g_matrix[i][0] != '3'
+							&& g_matrix[i][1] != '3' && g_matrix[i][2] != '3'
+								&& g_matrix[i][3] != '3')
+							x++;
+					}
+					i++;
+				}
+				if (x == 1)
+				{
+					i = 0;
+					x = 0;
+					while (i < 3)
+					{
+						if(g_matrix[i][j] == '3')
+							x++;
+						i++;
+					}
+					if (x == 0)
+					{
+						i = 0;
+						while (i < 3)
+						{
+							if (position == 8)
+							{
+								if (g_matrix[i][j] == 'x' && rows[i * 2] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else if (position == 14)
+							{
+								if (g_matrix[i][j] == 'x' && rows[i * 2 + 8] != '3')
+									g_matrix[i][j] = '3';
+							}
+							else
+							{
+								if (g_matrix[i][j] == 'x'
+									&& g_matrix[i][0] != '3'
+										&& g_matrix[i][1] != '3'
+											&& g_matrix[i][2] != '3'
+												&& g_matrix[i][3] != '3')
+									g_matrix[i][j] = '3';
+							}
+							i++;
+						}
 					}
 				}
 			}
@@ -719,14 +1222,22 @@ void	ft_fill_skyscraper(char *columns, char *rows)
 	while (x < 10)
 	{
 		ft_try_put_four_in_matrix();
-		ft_three_rule_row(rows);
-		ft_three_rule_column(columns);
+		ft_three_rule_row(rows, columns);
+		ft_three_rule_column(rows, columns);
 		ft_try_put_three_in_row();
 		ft_two_rule_in_row(rows);
 		ft_two_rule_in_column(columns);
 		ft_try_put_three_in_matrix();
 		ft_second_three_rule_row(rows);
 		ft_second_three_rule_column(columns);
+		ft_third_three_rule_row(rows, columns);
+		ft_third_three_rule_column(rows, columns);
+		ft_second_two_rule_in_row(rows);
+		ft_second_two_rule_in_column(columns);
+		ft_fourth_three_rule_row(rows);
+		ft_fourth_three_rule_column(columns);
+		ft_third_two_rule_row(rows);
+		ft_third_two_rule_column(columns);
 		ft_fill_last_position_in_column();
 		ft_fill_last_position_in_row();
 		x++;
