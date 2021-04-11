@@ -6,13 +6,83 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 20:02:23 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/11 06:28:45 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/11 18:00:50 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-char g_matrix[4][5];
+char g_matrix[4][4];
+
+void	ft_fourth_two_rule_column(char *columns)
+{
+	int position;
+	int j;
+	
+	position = 0;
+	while (columns[position] != '\0')
+	{
+		if (columns[position] == '2')
+		{
+			if (position < 7)
+			{
+				j = position / 2;
+				if (g_matrix[2][j] == '4' && g_matrix[3][j] == '3' 
+					&& g_matrix[0][j] == 'x' && g_matrix[1][j] == 'x')
+				{
+					g_matrix[0][j] = '2';
+					g_matrix[1][j] = '1';
+				}
+			}
+			else
+			{
+				j = (position - 8) / 2;
+				if (g_matrix[1][j] == '4' && g_matrix[0][j] == '3' 
+					&& g_matrix[3][j] == 'x' && g_matrix[2][j] == 'x')
+				{
+					g_matrix[3][j] = '2';
+					g_matrix[2][j] = '1';
+				}
+			}
+		}
+		position++;
+	}
+}
+
+void	ft_fourth_two_rule_row(char *rows)
+{
+	int position;
+	int i;
+	
+	position = 0;
+	while (rows[position] != '\0')
+	{
+		if (rows[position] == '2')
+		{
+			if (position < 7)
+			{
+				i = position / 2;
+				if (g_matrix[i][2] == '4' && g_matrix[i][3] == '3' 
+					&& g_matrix[i][0] == 'x' && g_matrix[i][1] == 'x')
+				{
+					g_matrix[i][0] = '2';
+					g_matrix[i][1] = '1';
+				}
+			}
+			else
+			{
+				i = (position - 8) / 2;
+				if (g_matrix[i][1] == '4' && g_matrix[i][0] == '3' 
+					&& g_matrix[i][3] == 'x' && g_matrix[i][2] == 'x')
+				{
+					g_matrix[i][3] = '2';
+					g_matrix[i][2] = '1';
+				}
+			}
+		}
+		position++;
+	}
+}
 
 void	ft_third_two_rule_row(char *rows)
 {
@@ -1212,7 +1282,6 @@ void	ft_fill_skyscraper(char *columns, char *rows)
 			g_matrix[i][j] = 'x';
 			j++;
 		}
-		g_matrix[i][j] = '\0';
 		i++;
 	}
 	ft_find_four_in_columns_parameters(columns);
@@ -1238,6 +1307,8 @@ void	ft_fill_skyscraper(char *columns, char *rows)
 		ft_fourth_three_rule_column(columns);
 		ft_third_two_rule_row(rows);
 		ft_third_two_rule_column(columns);
+		ft_fourth_two_rule_column(columns);
+		ft_fourth_two_rule_row(rows);
 		ft_fill_last_position_in_column();
 		ft_fill_last_position_in_row();
 		x++;
