@@ -6,7 +6,7 @@
 /*   By: rfelipe- <rfelipe-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/10 03:21:44 by rfelipe-          #+#    #+#             */
-/*   Updated: 2021/04/11 19:04:44 by rfelipe-         ###   ########.fr       */
+/*   Updated: 2021/04/11 19:29:03 by rfelipe-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,21 @@ int		main(int argc, char *argv[])
 {
 	char	*col_up_n_down;
 	char	*row_left_n_right;
-	int		error;
 
 	col_up_n_down = (char *)malloc(16);
 	row_left_n_right = (char *)malloc(16);
-	error = 0;
 	if (argc == 2)
 	{
-		error = ft_fill_parameters(col_up_n_down, row_left_n_right, argv[1]);
-		if (error == 0)
+		if (!(ft_fill_parameters(col_up_n_down, row_left_n_right, argv[1])))
 		{
-			error = ft_check_valid_parameters(col_up_n_down);
-			if (error == 0)
-				error = ft_check_valid_parameters(row_left_n_right);
-			if (error == 0)
-				ft_fill_skyscraper(col_up_n_down, row_left_n_right);
-			if (error == 1)
+			if (!(ft_check_valid_parameters(col_up_n_down)))
+			{
+				if (!(ft_check_valid_parameters(row_left_n_right)))
+					ft_fill_skyscraper(col_up_n_down, row_left_n_right);
+				else
+					write(1, "Error\n", 6);
+			}
+			else
 				write(1, "Error\n", 6);
 		}
 		else
